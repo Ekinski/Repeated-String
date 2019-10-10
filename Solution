@@ -1,0 +1,65 @@
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Solution {
+
+    // Complete the repeatedString function below.
+    static long repeatedString(string s, long n) {
+        char search = 'a'; // char we are looking for
+        int count = 0; // how many 'a' in arr
+        char[] word = s.ToCharArray();
+        if (word.Length == 1 && word[0] == search){
+            return n;
+        } else if (word.Length == 1){
+            return 0;
+        }
+        for ( int a = 0; a < word.Length; a++){
+            if (word[a] == search){
+                count++;
+            }
+        }
+        long multi = n / word.Length; // how many times print word e.g: 10 / of 3 letters is 3 with 1 remainder.
+        long remainder = n % word.Length; // remainder
+        long answer = multi * count; // answer is number of 'a' in word * multi how many we need to print the words 
+        if (remainder == 0){ //if there are no extra letters we return the answer
+            return answer;
+        } else { // else we go through the word calculating how many 'a' in the remainder a.k.a letters
+            count = 0;
+            for(int b = 0; b < remainder; b++){
+                if (word[b] == search){
+                    count++;
+                } else {
+                    continue;
+                }
+            }
+            answer = answer + count;
+        }
+        return answer;
+    }
+
+    static void Main(string[] args) {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        string s = Console.ReadLine();
+
+        long n = Convert.ToInt64(Console.ReadLine());
+
+        long result = repeatedString(s, n);
+
+        textWriter.WriteLine(result);
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
